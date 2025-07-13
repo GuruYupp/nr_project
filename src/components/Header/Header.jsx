@@ -1,12 +1,17 @@
 "use client"; // If you’re using Next.js App Router
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiLogOut } from "@react-icons/all-files/fi/FiLogOut"; // Optional: react-icons for logout icon
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const [session,setSession] = useState(false);
+    useEffect(()=>{
+      setSession(!!localStorage.getItem('session'))
+    },[])
 
   const handleLogout = () =>{
     localStorage.removeItem('session');
@@ -14,7 +19,7 @@ export default function Header() {
   }
 
   return (
-    <header className="relative bg-white shadow">
+    <header className="sticky top-0 z-50 bg-white shadow">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         {/* Logo CENTER (optional) */}
         <div className="text-xl font-bold text-indigo-600">MySite</div>
@@ -27,19 +32,21 @@ export default function Header() {
           <a href="#" className="text-gray-600 hover:text-indigo-600">
             About
           </a>
-          <a href="#" className="text-gray-600 hover:text-indigo-600">
+          <Link  href="/services"
+            shallow
+            prefetch className="text-gray-600 hover:text-indigo-600">
             Services
-          </a>
+          </Link>
           <a href="#" className="text-gray-600 hover:text-indigo-600">
             Contact
           </a>
         </nav>
 
         {/* Logout RIGHT */}
-        <div className="hidden md:flex items-center space-x-2 text-gray-600 hover:text-red-500 cursor-pointer" onClick={handleLogout}>
+        {session && <div className="hidden md:flex items-center space-x-2 text-gray-600 hover:text-red-500 cursor-pointer" onClick={handleLogout}>
           <FiLogOut className="h-5 w-5" />
           <span className="text-sm font-medium">Logout</span>
-        </div>
+        </div>}
 
         {/* Hamburger */}
         <div className="md:hidden flex items-center">
@@ -94,22 +101,26 @@ export default function Header() {
           >
             About
           </a>
-          <a
-            href="#"
+          <Link
+            href="/services"
+            shallow
+            prefetch
             className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-indigo-600"
           >
             Services
-          </a>
+          </Link>
           <a
             href="#"
             className="block rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-indigo-600"
           >
             Contact
           </a>
-          <button className="flex items-center space-x-2 rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-red-500 w-full" onClick={handleLogout}>
+          
+
+          {session && <button className="flex items-center space-x-2 rounded-md px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-red-500 w-full" onClick={handleLogout}>
             <FiLogOut className="h-5 w-5" />
             <span>Logout</span>
-          </button>
+          </button>}
         </nav>
       </div>
     </header>

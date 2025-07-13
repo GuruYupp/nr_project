@@ -1,9 +1,9 @@
+import AppRootLayout from "@/components/AppRootLayout"
 import LoginPage from "@/components/LoginPage/LoginPage"
 
 const Login = () => {
   return (
-    <LoginPage/>
-  )
+    <AppRootLayout><LoginPage/></AppRootLayout>)
 }
 
 export default Login

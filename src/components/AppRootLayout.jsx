@@ -1,11 +1,21 @@
 "use client";
+import { usePathname, useRouter } from "next/navigation";
 import Header from "./Header/Header";
+import { useEffect, useState } from "react";
 
  // Only needed for Next.js App Router
 
 
 export default function AppRootLayout({ children }) {
 
+  const pathname = usePathname();
+  const router = useRouter();
+  useEffect (()=>{
+  
+    if(!localStorage.getItem('session') && pathname === '/services'){
+      router.replace('/login');
+    }
+  },[])
   return (
     <div className="flex min-h-screen flex-col">
       {/* ---------- HEADER ---------- */}
